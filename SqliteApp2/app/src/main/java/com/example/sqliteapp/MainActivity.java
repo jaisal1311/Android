@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     DatabaseHelper myDb;
     EditText editName,editSurname,editMarks;
-    Button addData,showData;
+    Button addData,showData, updateBtn, delBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,29 +30,32 @@ public class MainActivity extends AppCompatActivity {
 
         addData();
         showData();
+
+        updateBtn = findViewById(R.id.button_up);
+        delBtn = findViewById(R.id.button_del);
+
+        addData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"UPdated",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void addData(){
-        addData.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        boolean isInserted = myDb.insert(editName.getText().toString(),editSurname.getText().toString(),editMarks.getText().toString());
-                        if(isInserted){
-                            Toast.makeText(MainActivity.this,"Inserted",Toast.LENGTH_SHORT).show();;
-                        }else{
-                            Toast.makeText(MainActivity.this,"Not Inserted",Toast.LENGTH_SHORT).show();;
 
-                        }
+//                        boolean isInserted = myDb.insert(editName.getText().toString(),editSurname.getText().toString(),editMarks.getText().toString());
+//                        if(isInserted){
+//                            Toast.makeText(MainActivity.this,"Inserted",Toast.LENGTH_SHORT).show();;
+//                        }else{
+//                            Toast.makeText(MainActivity.this,"Not Inserted",Toast.LENGTH_SHORT).show();;
+//
+//                        }
+
                     }
-                }
-        );
-    }
+
     public void showData(){
-        showData.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+
                         Cursor res = myDb.getAllData();
                         if(res.getCount() == 0){
                             showMessage("DAta","Data not found");
@@ -70,9 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         showMessage("DAta",buffer.toString());
 
                     }
-                }
-        );
-    }
+
     public void showMessage(String title,String Message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title).setMessage(Message).show();
